@@ -7,7 +7,7 @@ OUTPUT_DIR="Histone_ChIPseq/Mapped"
 
 # Activate conda environment
 module load anaconda
-source activate workplace
+source activate chipseq_env
 
 # Create output folder
 mkdir -p $OUTPUT_DIR
