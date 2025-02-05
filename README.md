@@ -4,8 +4,15 @@ This workflow requires previously filtered .fastq files from ChIP-seq experiment
 
 ## Installation
 
-This workflow uses multiple programs installed in a conda environment named chipseq env (environment.yml). 
+To install the pipeline:
 
+```bash
+git clone https://github.com/ccarloscr
+cf Histone-ChIP-seq-analysis
+./chipseq_workflow.nf --help
+```
+
+This workflow depends on multiple dependencies installed in a conda environment named chipseq env (environment.yml). 
 
 ## Comments
 
