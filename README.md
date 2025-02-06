@@ -23,7 +23,7 @@ cd Histone-ChIP-seq-analysis
 ./chipseq_workflow.nf --help
 ```
 
-This workflow depends on multiple tools and libraries, which are installed in the Conda environment named chipseq env ([environment.yml](environment.yml)). Once the environment is created, it will be called automatically by the [`chipseq_workflow.nf`](chipseq_workflow.nf) script.
+This workflow depends on multiple tools and libraries, which are installed in he Conda environment ([environment.yml](environment.yml)). Once the environment is created, it will be called automatically by the [`chipseq_workflow.nf`](chipseq_workflow.nf) script.
 
 To create the required conda environment:
 ```bash
