@@ -16,7 +16,7 @@ The main Nextflow script [`chipseq_workflow.nf`](chipseq_workflow.nf) orchestrat
 
 ## Installation
 
-To install the pipeline:
+To install the pipeline clone the repository:
 ```bash
 git clone https://github.com/ccarloscr/Histone-ChIP-seq-analysis.git
 cd Histone-ChIP-seq-analysis
@@ -30,15 +30,26 @@ To create the required conda environment:
 conda env create -f environment.yml -n chipseq_env
 ```
 
-The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. For the _Drosophila melanogaster_ dm3 genome, run the following code in order to: (1) download the dm3 genome from UCSC, (2) activate the conda environment to get access to HISAT2, and (3) run HISAT2 to build the index of the downloaded genome.
+The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. For the _Drosophila melanogaster_ dm3 genome, run the following code once in order to: (1) download the dm3 genome from UCSC, (2) activate the conda environment to get access to HISAT2, and (3) run HISAT2 to build the index of the downloaded genome.
 ```bash
+# Create the directory:
 mkdir -p ~/Histone-ChIP-seq-analysis/Genomes/dm3
 cd ~/Histone-ChIP-seq-analysis/Genomes/dm3
+
+# Download the dm3 genome from UCSC
 wget http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
 gunzip dm3.fa.gz
+
+# Activate the conda environment to get access to HISAT2
 conda activate chipseq_env
+
+# Build the dm3 genome
 hisat2-build dm3.fa dm3_index
 ```
+
+## Configuration
+
+The main nextflow script uses the [`nextflow.config`](nextflow.config) configuration. The provided file uses SLURM, 16 cpus and 1 node. Change based on preferences. Do not forget to change the name of the partition used for the processing.
 
 
 ## Comments
