@@ -17,20 +17,29 @@ The main Nextflow script [`chipseq_workflow.nf`](chipseq_workflow.nf) orchestrat
 ## Installation
 
 To install the pipeline:
-
 ```bash
-git clone https://github.com/ccarloscr
-cf Histone-ChIP-seq-analysis
+git clone https://github.com/ccarloscr/Histone-ChIP-seq-analysis.git
+cd Histone-ChIP-seq-analysis
 ./chipseq_workflow.nf --help
 ```
 
 This workflow depends on multiple tools and libraries, which are installed in the Conda environment named chipseq env ([environment.yml](environment.yml)). Once the environment is created, it will be called automatically by the [`chipseq_workflow.nf`](chipseq_workflow.nf) script.
 
 To create the required conda environment:
-
 ```bash
 conda env create -f environment.yml -n chipseq_env
 ```
+
+The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. For the _Drosophila melanogaster_ dm3 genome, run the following code in order to: (1) download the dm3 genome from UCSC, (2) activate the conda environment to get access to HISAT2, and (3) run HISAT2 to build the index of the downloaded genome.
+```bash
+mkdir -p ~/Histone-ChIP-seq-analysis/Genomes/dm3
+cd ~/Histone-ChIP-seq-analysis/Genomes/dm3
+wget http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
+gunzip dm3.fa.gz
+conda activate chipseq_env
+hisat2-build dm3.fa dm3_index
+```
+
 
 ## Comments
 
