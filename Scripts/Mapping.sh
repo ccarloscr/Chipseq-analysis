@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variable set up
-REFERENCE_GENOME="dm3/dm3_index"
+REFERENCE_GENOME="Histone_ChIPseq/dm3/dm3_index"
 FASTQ_DIR="Histone_ChIPseq/Fastq_files"
 OUTPUT_DIR="Histone_ChIPseq/Mapped"
 
