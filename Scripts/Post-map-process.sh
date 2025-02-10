@@ -6,7 +6,6 @@
 
 set -e
 
-
 ## Variable set up
 INPUT_DIR="Histone_ChIPseq/Mapped"
 FILTERED_DIR="Histone_ChIPseq/Mapped/Filtered"
