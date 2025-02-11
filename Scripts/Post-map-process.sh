@@ -13,11 +13,6 @@ SORTED_DIR="Chipseq-analysis/Mapped/Sorted"
 MAX_MISMATCH="4"  # Only works for up to 9 mismatches
 
 
-## Activate conda environment
-module load anaconda
-source activate chipseq_env
-
-
 ## Create output folder
 mkdir -p $FILTERED_DIR
 mkdir -p $SORTED_DIR
