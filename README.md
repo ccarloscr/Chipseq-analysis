@@ -46,14 +46,19 @@ conda activate chipseq_env
 hisat2-build dm3.fa dm3_index
 ```
 
+
 ## Configuration
 
 The main nextflow script uses the [`nextflow.config`](nextflow.config) configuration. The provided file uses SLURM, 16 cpus and 1 node. Change based on preferences. Do not forget to change the name of the partition used for the processing.
+
+The [`metadata.csv`](metadata.csv) file contains the metadata from sample ChIP-seq experiments, change according to your datasets.
 
 
 ## Comments
 
 SLURM-based THREAD options are included in the main Nextflow script.
+
+
 
 
 
