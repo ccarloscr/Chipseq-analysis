@@ -1,9 +1,8 @@
-# Histone-ChIP-seq-analysis
+# Chipseq-analysis
 
-This workflow processes pre-filtered .fastq files from ChIP-seq experiments. The pipeline is optimized for histone mark analysis, but the fragment length parameters can be adjusted for other proteins.
+This workflow processes, maps and analises pre-filtered .fastq files from ChIP-seq experiments. The pipeline is optimized for histone marks, but the fragment length parameters can be adjusted for other proteins.
 
 The main Nextflow script [`chipseq_workflow.nf`](chipseq_workflow.nf) orchestrates the pipeline by calling the Bash scripts located in the [`Scripts/`](Scripts/) directory. Each Bash script corresponds to a specific step in the workflow:
-
 
 - [`Mapping.sh`](Scripts/Mapping.sh): Read mapping using HISAT2.
 - [`Post-map-process.sh`](Scripts/Post-map-process.sh): Filtering, sorting and indexing of aligned files.
@@ -18,8 +17,8 @@ The main Nextflow script [`chipseq_workflow.nf`](chipseq_workflow.nf) orchestrat
 
 To install the pipeline clone the repository:
 ```bash
-git clone https://github.com/ccarloscr/Histone-ChIP-seq-analysis.git
-cd Histone-ChIP-seq-analysis
+git clone https://github.com/ccarloscr/Chipseq-analysis.git
+cd Chipseq-analysis
 ./chipseq_workflow.nf --help
 ```
 
@@ -33,8 +32,8 @@ conda env create -f environment.yml -n chipseq_env
 The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. For the _Drosophila melanogaster_ dm3 genome, run the following code once in order to: (1) download the dm3 genome from UCSC, (2) activate the conda environment to get access to HISAT2, and (3) run HISAT2 to build the index of the downloaded genome.
 ```bash
 # Create the directory:
-mkdir -p ~/Histone-ChIP-seq-analysis/Genomes/dm3
-cd ~/Histone-ChIP-seq-analysis/Genomes/dm3
+mkdir -p ~/Chipseq-analysis/Genomes/dm3
+cd ~/Chipseq-analysis/Genomes/dm3
 
 # Download the dm3 genome from UCSC
 wget http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm3.fa.gz
