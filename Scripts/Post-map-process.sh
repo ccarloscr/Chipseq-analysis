@@ -7,9 +7,9 @@
 set -e
 
 ## Variable set up
-INPUT_DIR="Histone_ChIPseq/Mapped"
-FILTERED_DIR="Histone_ChIPseq/Mapped/Filtered"
-SORTED_DIR="Histone_ChIPseq/Mapped/Sorted"
+INPUT_DIR="Chipseq-analysis/Mapped"
+FILTERED_DIR="Chipseq-analysis/Mapped/Filtered"
+SORTED_DIR="Chipseq-analysis/Mapped/Sorted"
 MAX_MISMATCH="4"  # Only works for up to 9 mismatches
 
 
