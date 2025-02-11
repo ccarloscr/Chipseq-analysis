@@ -1,0 +1,5 @@
+input_code;experiment_code;antibody;condition;replicate;other
+SRR5319101;SRR5319107;H3K4me1;Trr_mut;rep1;single-end, no strand-specific chipseq
+SRR5319102;SRR5319108;H3K4me1;WT;rep1;single-end, no strand-specific chipseq
+;;;;;
+;;;;;
