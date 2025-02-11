@@ -7,9 +7,9 @@
 set -e
 
 ## Variable set up
-REFERENCE_GENOME="Histone_ChIPseq/dm3/dm3_index"
-FASTQ_DIR="Histone_ChIPseq/Fastq_files"
-OUTPUT_DIR="Histone_ChIPseq/Mapped"
+REFERENCE_GENOME="Chipseq-analysis/dm3/dm3_index"
+FASTQ_DIR="Chipseq-analysis/Fastq_files"
+OUTPUT_DIR="Chipseq-analysis/Mapped"
 
 
 ## Check if the reference genome is available
