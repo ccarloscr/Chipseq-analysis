@@ -4,20 +4,28 @@
 ## This peak calling is optimized for reads with no strand information
 ## For strand-specific reads, remove the --nomodel and --extsize options of the macs2 callpeak
 
-# Variable set up
-INPUT_DIR="Chipseq-analysis/Mapped/Sorted"
-OUTPUT_DIR="Chipseq-analysis/Peaks"
-METADATA_FILE="Chipseq-analysis/metadata.tsv"
-INPUT_NAME=""      # Name of input file (no antibody)
-EXP_NAME=""        # Name of experimental file (antibody)
-EXTSIZE="150"      # Average fragment length (i.e. minimal peak size)
+set -e
+
+## Variable set up
+METADATA_FILE="$1"
+EXTSIZE="$2"
+INPUT_DIR="$3"
+OUTPUT_DIR="$4"
 
 
+## Ensure metadata file exists
+if [[ ! -f "$METADATA_FILE" ]]; then
+    echo "Error: Metadata file $METADATA_FILE not found." >&2
+    exit 1
+fi
+
+
+## Create directories
 mkdir -p "$OUTPUT_DIR"
 
 
 ## Read the first 5 columns of the metadata file
-while IFS=$'\t' read -r INPUT_NAME EXP_NAME ANTIBODY CONDITION REP _; do
+IFS=$',' tail -n +2 "$METADATA_FILE" | while read -r INPUT_NAME EXP_NAME ANTIBODY CONDITION REP _; do
     INPUT_BAM="$INPUT_DIR/${INPUT_NAME}_sorted.bam"
     EXP_BAM="$INPUT_DIR/${EXP_NAME}_sorted.bam"
     OUTPUT_NAME="${ANTIBODY}_${CONDITION}_${REP}"
@@ -38,7 +46,7 @@ while IFS=$'\t' read -r INPUT_NAME EXP_NAME ANTIBODY CONDITION REP _; do
     macs2 callpeak -t "$EXP_BAM" -c "$INPUT_BAM" -f BAM -g dm --outdir "$OUTPUT_DIR" -n "$OUTPUT_NAME" --nomodel --extsize "$EXTSIZE"
     echo "Peak calling done for: $EXP_NAME vs $INPUT_NAME"
 
-done < <(tail -n +2 "$METADATA_FILE")
+done
 
 echo "Peak calling complete for ${METADATA_FILE}."
 
