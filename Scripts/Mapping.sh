@@ -2,14 +2,15 @@
 
 # Author: Carlos Camilleri-Robles
 # Contact: carloscamilleri@hotmail.com
+# Version: updated 12-02-2025
 # This script uses HISAT2 to map single-end reads to dm3
 
 set -e
 
 ## Variable set up
-REFERENCE_GENOME="Chipseq-analysis/dm3/dm3_index"
-FASTQ_DIR="Chipseq-analysis/Fastq_files"
-OUTPUT_DIR="Chipseq-analysis/Mapped"
+REFERENCE_GENOME=$1
+FASTQ_DIR=$2
+OUTPUT_DIR=$3
 
 
 ## Check if the reference genome is available
@@ -26,17 +27,13 @@ if [[ ! -d "$FASTQ_DIR" ]]; then
 fi
 
 
-## Create output folder
-mkdir -p "$OUTPUT_DIR"
-
-
 ## Mapping using HISAT2
 for fastq_file in "$FASTQ_DIR"/*.fastq; do
 
     # Create variable based on fastq filename
     base_name=$(basename "$fastq_file" .fastq)
     
-    # Define output name
+    # Define output
     output_sam="$OUTPUT_DIR/${base_name}_mapped.sam"
     output_bam="$OUTPUT_DIR/${base_name}_mapped.bam"
     
@@ -56,8 +53,3 @@ for fastq_file in "$FASTQ_DIR"/*.fastq; do
 done
 
 echo "All mappings completed."
-
-
-
-
-
