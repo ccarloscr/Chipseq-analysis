@@ -7,10 +7,15 @@
 
 set -e
 
+
 ## Variable set up
 REFERENCE_GENOME=$1
 FASTQ_DIR=$2
 OUTPUT_DIR=$3
+
+
+# Create directories
+mkdir -p "$OUTPUT_DIR"
 
 
 ## Check if the reference genome is available
