@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 ## Comments
-## This script annotates previously called peaks
+## This R script transforms dm3 peaks into dm6, filters out non-canonical chromosomes, and annotates its genomic features.
 
 ## Define variables
 around_tss <- 500    # Sets the bp range around the TSS
@@ -63,6 +63,7 @@ if (file.exists(chain_file_unzipped)) {
 }
 else {stop("Unzipped file does not exist: ", chain_file_unzipped)
 }
+
 
 
 ## Create a list of GRanges from the .narrowPeak files
