@@ -7,9 +7,7 @@ The main Nextflow script [`chipseq_workflow.nf`](chipseq_workflow.nf) orchestrat
 - [`Mapping.sh`](Scripts/Mapping.sh): Read mapping using HISAT2.
 - [`Post-map-process.sh`](Scripts/Post-map-process.sh): Filtering, sorting and indexing of aligned files.
 - [`Peak-calling.sh`](Scripts/Peak-calling.sh): Peak calling using MACS2.
-- [`Liftover.sh`](Scripts/Liftover.sh): Liftover of peak coordinates from dm3 to dm6.
-- [`Peak-filtering.sh`](Scripts/Peak-filtering.sh): Filtering of peaks located in non-canonical chromosomes.
-- [`Peak-processing.sh`](Scripts/Peak-processing.sh): Annotation of peak features.
+- [`Peak-annotation.sh`](Scripts/Peak-annotation.sh): LiftOver from dm3 to dm6; Filtering of non-canonical chromosomes; Annotation of peak features.
 - [`Heatmaps.sh`](Scripts/Heatmaps.sh): Heatmap representation of annotated peaks.
 
 
