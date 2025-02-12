@@ -2,18 +2,39 @@
 
 nextflow.enable.dsl=2
 
+### Default parameters
+
+params {
+    fastq_dir = "Chipseq-analysis/Fastq_files"                # Path to fastq files
+    genome_index = "Chipseq-analysis/dm3/dm3_index            # Path to HISAT2 genome index
+    output_dir = "Chipseq-analysis/Results"                   # Output directory
+    max_mismatch = 4                                          # Maximum mapping mismatch allowed
+
+}
+
+
 process Mapping {
     tag "Mapping Process"
-    
-    input:
-    path fastq_files from "/Histone"
 
+    ## Define input
+    input:
+    path fastq_file
+
+    ## Define ouput
     output:
-    path "mapped_data/" 
+    path "*.bam", emit: mapped_bam
 
     script:
     """
-    bash mapping.sh
+
+    ## Define ouput directory
+    output_dir_mapping="${params.output_dir}/Mapped"
+
+    ## Run mapping script
+    bash /Chipseq-analysis/Scripts/mapping.sh
+        "${params.genome_index}"
+        "${fastq_file}"
+        "${output_dir_mapping}"
     """
 }
 
