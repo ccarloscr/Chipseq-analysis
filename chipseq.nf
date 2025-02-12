@@ -2,6 +2,8 @@
 
 nextflow.enable.dsl=2
 
+
+
 ### Default parameters
 
 params {
@@ -13,45 +15,73 @@ params {
 }
 
 
+
+### Define channel containing fastq files
+
+Channel
+    .fromPath("${params.fastq_dir}/*.fastq")
+    .set { fastq_channel }
+
+
+
+### Process 1: mapping using HISAT2
+
 process Mapping {
     tag "Mapping Process"
 
-    ## Define input
+    ## Define input: fastq elements from the fastq_channel defined previously
     input:
     path fastq_file
 
-    ## Define ouput
+    ## Capture output .bam files into mapped_bam channel
     output:
     path "*.bam", emit: mapped_bam
 
     script:
     """
-
-    ## Define ouput directory
+    ## Define output directory
     output_dir_mapping="${params.output_dir}/Mapped"
+    mkdir -p "\$output_dir_mapping"
 
     ## Run mapping script
     bash /Chipseq-analysis/Scripts/mapping.sh
-        "${params.genome_index}"
-        "${fastq_file}"
-        "${output_dir_mapping}"
+        "${params.genome_index}"        # Genome index directory
+        "${fastq_file}"                 # Input fastq files from fastq_channel
+        "${output_dir_mapping}"         # Output directory
     """
 }
+
+
+
+### Process 2: Filtering, sorting and indexing of .bam files
 
 process PostMapping {
     tag "Post-Mapping Process"
 
+    # Define input: each .bam file from the mapped_bam channel
     input:
-    path mapped_data from Mapping.out
+    path bam_file
 
+    ## Capture output .sorted.bam files into sorted_bam channel
     output:
-    path "processed_data/"
+    path "*.sorted.bam", emit: sorted_bam
 
     script:
     """
+    ## Define output directories
+    filtered_dir = "${params.output_dir}/Mapped/Filtered"
+    sorted_dir = "${params.output_dir}/Mapped/Sorted"
+    mkdir -p "\$filtered_dir"
+    mkdir -p "\$sorted_dir"
+
+    ## Run processing script
     bash post-map-process.sh
     """
 }
+
+
+
+### Process 3: Peak calling using MACS2
 
 process PeakCalling {
     tag "Peak-Calling Process"
