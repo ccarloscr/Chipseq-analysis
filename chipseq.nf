@@ -8,7 +8,7 @@ nextflow.enable.dsl=2
 
 params {
     fastq_dir = "Chipseq-analysis/Fastq_files"                # Path to fastq files
-    genome_index = "Chipseq-analysis/dm3/dm3_index"           # Path to HISAT2 genome index
+    genome_index = "Chipseq-analysis/dm3/dm3_index"           # Path to genome index
     metadata = "Chipseq-analysis/metadata.csv"                # Path to metadata file
     output_dir = "Chipseq-analysis/Results"                   # Output directory
     max_mismatch = 4                                          # Maximum mapping mismatch allowed
