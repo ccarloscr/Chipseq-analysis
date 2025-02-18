@@ -17,7 +17,6 @@ To install the pipeline clone the repository:
 ```bash
 git clone https://github.com/ccarloscr/Chipseq-analysis.git
 cd Chipseq-analysis
-./chipseq_workflow.nf --help
 ```
 
 This workflow depends on multiple tools and libraries, which are installed in the Conda environment [environment.yml](environment.yml). Once the environment is created, it will be called automatically by the [`chipseq_workflow.nf`](chipseq_workflow.nf) script.
