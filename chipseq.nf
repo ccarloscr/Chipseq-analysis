@@ -108,7 +108,7 @@ process PeakCalling {
     bash /Chipseq-analysis/Scripts/Peak-calling.sh
         "${metadata}"                 # Metadata file
         "${ext_size}"                 # Average fragment length (i.e. minimal peak size)
-        "${sorted_dir}"               # Input directory
+        "${sorted_bam}"               # Input bam files previously generated
         "${peaks_dir}"                # Output directory
     """
 }
