@@ -57,6 +57,12 @@ process Mapping {
 process PostMapping {
     tag "Post-Mapping Process"
 
+    ## Publish all sorted bam files into a common directory
+    publishDir "${params.output_dir}/Sorted",
+        mode: 'copy',
+        pattern: '*.bam',
+        overwritte: true
+
     ## Define input: each .bam file from the mapped_bam channel and the parameter defined as param.max_mismatch
     input:
     path bam_file
@@ -91,7 +97,7 @@ process PeakCalling {
 
     ## Define input: each .bam file from the sorted_bam channel
     input:
-    path sorted_bam
+    path sorted_dir
     val metadata
     val ext_size
 
@@ -108,7 +114,7 @@ process PeakCalling {
     bash /Chipseq-analysis/Scripts/Peak-calling.sh
         "${metadata}"                 # Metadata file
         "${ext_size}"                 # Average fragment length (i.e. minimal peak size)
-        "${sorted_bam}"               # Input bam files previously generated
+        "${sorted_dir}"               # Bam files used as input
         "${peaks_dir}"                # Output directory
     """
 }
@@ -116,6 +122,7 @@ process PeakCalling {
 workflow {
     mapped_bam = Mapping(fastq_channel)
     sorted_bam, sorted_bai = PostMapping(mapped_bam, params.max_mismatch)
-    PeakCalling(params.metadata, params.ext_size, sorted_bam)
+    all_sorted_bams = sorted_bam.collect().wait()            // Wait and collect all bam files before starting next process
+    PeakCalling(params.metadata, params.ext_size, file("${params.output_dir}/Sorted"))
 }
 
