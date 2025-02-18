@@ -8,3 +8,4 @@ dependencies:
   - hisat2
   - samtools
   - bedtools
+  - macs2
