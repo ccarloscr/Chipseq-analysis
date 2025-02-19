@@ -2,7 +2,7 @@
 
 This workflow processes, maps and analises pre-filtered .fastq files from ChIP-seq experiments. The pipeline is optimized for histone marks, but the fragment length parameters can be adjusted for other proteins.
 
-The main Nextflow script [`chipseq_workflow.nf`](chipseq_workflow.nf) orchestrates the pipeline by calling the Bash scripts located in the [`Scripts/`](Scripts/) directory. Each Bash script corresponds to a specific step in the workflow:
+The main Nextflow script [`chipseq.nf`](chipseq.nf) orchestrates the pipeline by calling the Bash scripts located in the [`Scripts/`](Scripts/) directory. Each Bash script corresponds to a specific step in the workflow:
 
 - [`Mapping.sh`](Scripts/Mapping.sh): Read mapping using HISAT2.
 - [`Post-map-process.sh`](Scripts/Post-map-process.sh): Filtering, sorting and indexing of aligned files.
@@ -19,7 +19,7 @@ git clone https://github.com/ccarloscr/Chipseq-analysis.git
 cd Chipseq-analysis
 ```
 
-This workflow depends on multiple tools and libraries, which are installed in the Conda environment [environment.yml](environment.yml). Once the environment is created, it will be called automatically by the [`chipseq_workflow.nf`](chipseq_workflow.nf) script.
+This workflow depends on multiple tools and libraries, which are installed in the Conda environment [environment.yml](environment.yml). Once the environment is created, it will be called automatically by the [`chipseq.nf`](chipseq.nf) script.
 
 To create the required conda environment:
 ```bash
