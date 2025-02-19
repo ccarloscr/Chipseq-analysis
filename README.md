@@ -46,20 +46,8 @@ hisat2-build dm3.fa dm3_index
 
 ## Configuration
 
-The main nextflow script uses the [`nextflow.config`](nextflow.config) configuration. The provided file uses SLURM, 16 cpus and 1 node. Change based on preferences. Do not forget to change the name of the partition used for the processing.
+The main nextflow script uses the [`nextflow.config`](nextflow.config) configuration. The provided options use SLURM to connect to the irbio01 HPC cluster. Change according to your HPC cluster.
 
-The [`metadata.csv`](metadata.csv) file contains the metadata from sample ChIP-seq experiments, change according to your datasets.
-
-
-## Comments
-
-SLURM-based THREAD options are included in the main Nextflow script.
-
-
-
-
-
-
-
+The [`metadata.csv`](metadata.csv) file contains the necessary information to pair the input and experimental samples. In the first and second columns, you should place the sample names of the input and the corresponding experimental sample, respectively. In the third column you should place the antibody used, in the fourth column the genotype, and in the fifth column the replicate number.
 
 
