@@ -97,9 +97,9 @@ process PeakCalling {
 
     // Define input: each .bam file from the sorted_bam channel
     input:
-    path sorted_dir
     val metadata
     val ext_size
+    path sorted_dir
 
     // Define output directory
     def peaks_dir = "${params.output_dir}/Peak_calling"
