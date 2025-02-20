@@ -32,6 +32,7 @@ process Mapping {
 
     // Define input: fastq elements from the fastq_channel defined previously
     input:
+    path genome_index
     path fastq_file
 
     // Capture output .bam files into mapped_bam channel
@@ -39,12 +40,10 @@ process Mapping {
     path "*.bam", emit: mapped_bam
 
     script:
-    // Define output directory
     output_dir_mapping="${params.output_dir}/Mapped"
     """
-    // Run mapping script
     bash /Chipseq-analysis/Scripts/mapping.sh
-        "${params.genome_index}"        // Genome index directory
+        "${genome_index}"               // Genome index directory
         "${fastq_file}"                 // Input fastq files from fastq_channel
         "${output_dir_mapping}"         // Output directory
     """
