@@ -71,10 +71,9 @@ process PostMapping {
     def filtered_dir = "${params.output_dir}/Filtered"
     def sorted_dir = "${params.output_dir}/Sorted"
 
-    // Pass sorted .bam and index .bai files
+    // Pass sorted .bam files
     output:
     path "${sorted_dir}/*.bam", emit: sorted_bam
-    path "${sorted_dir}/*.bai", emit: sorted_bai
 
     // Run processing script
     script:
@@ -96,7 +95,7 @@ process PeakCalling {
 
     // Define input: each .bam file from the sorted_bam channel
     input:
-    val metadata
+    path metadata
     val ext_size
     path sorted_dir
 
@@ -120,7 +119,7 @@ process PeakCalling {
 
 workflow {
     mapped_bam = Mapping(fastq_channel)
-    sorted_bam, sorted_bai = PostMapping(mapped_bam, params.max_mismatch)
-    all_sorted_bams = sorted_bam.collect().wait()            // Wait and collect all bam files before starting next process
-    PeakCalling(params.metadata, params.ext_size, file("${params.output_dir}/Sorted"))
+    sorted_bam = PostMapping(mapped_bam, params.max_mismatch)
+    all_sorted_bams = sorted_bam.collect()          // Wait and collect all bam files before starting next process
+    PeakCalling(file(params.metadata), params.ext_size, file("${params.output_dir}/Sorted"))
 }
