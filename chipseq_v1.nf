@@ -118,8 +118,8 @@ process PeakCalling {
 }
 
 workflow {
-    mapped_bam = Mapping(fastq_channel)
+    mapped_bam = Mapping(params.genome_index, fastq_channel)
     sorted_bam = PostMapping(mapped_bam, params.max_mismatch)
-    all_sorted_bams = sorted_bam.collect()          // Wait and collect all bam files before starting next process
-    PeakCalling(file(params.metadata), params.ext_size, file("${params.output_dir}/Sorted"))
+    PeakCalling(file(params.metadata), params.ext_size, sorted_bam.collect())
 }
+
