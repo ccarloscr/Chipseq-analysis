@@ -25,7 +25,7 @@ mkdir -p "$OUTPUT_DIR"
 
 
 ## Read the first 5 columns of the metadata file
-IFS=$',' tail -n +2 "$METADATA_FILE" | while read -r INPUT_NAME EXP_NAME ANTIBODY CONDITION REP _; do
+tail -n +2 "$METADATA_FILE" | while IFS=$',' read -r INPUT_NAME EXP_NAME ANTIBODY CONDITION REP _; do
     INPUT_BAM="$INPUT_DIR/${INPUT_NAME}_sorted.bam"
     EXP_BAM="$INPUT_DIR/${EXP_NAME}_sorted.bam"
     OUTPUT_NAME="${ANTIBODY}_${CONDITION}_${REP}"
