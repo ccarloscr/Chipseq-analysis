@@ -27,7 +27,7 @@ fi
 
 ## Check if the input directory exists
 if [[ ! -f "$FASTQ_FILE" ]]; then
-    echo "Error: The input file "$FASTQ_DIR" does not exist." >&2
+    echo "Error: The input file $FASTQ_FILE does not exist." >&2
     exit 1
 fi
 
@@ -46,9 +46,9 @@ hisat2 -x "$REFERENCE_GENOME" -U "$FASTQ_FILE" -S "$output_sam"
 samtools view -bS "$output_sam" > "$output_bam"
     
 # Check if bam file is empty
-if [[ ! -s "$output_bam"]]; then
-    echo "Error: BAM file is empty for "$FASTQ_FILE"." >&2
-    continue  
+if [[ ! -s "$output_bam" ]]; then
+    echo "Error: BAM file is empty for $FASTQ_FILE." >&2
+    exit 1  
 fi
     
-echo "Mapping for "$FASTQ_FILE" completed." >&2
+echo "Mapping for $FASTQ_FILE completed." >&2
