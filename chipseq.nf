@@ -4,7 +4,7 @@ nextflow.enable.dsl=2
 
 // Default parameters
 params.fastq_dir = "/home/DDGcarlos/Chipseq-analysis/Fastq_files"                    // Path to fastq files
-params.genome_index = "/home/DDGcarlos/Chipseq-analysis/Genomes/dm3/dm3_index"       // Path to genome index
+params.genome_index = "/home/DDGcarlos/Chipseq-analysis/Genomes/dm3"       // Path to genome index
 params.metadata = "/home/DDGcarlos/Chipseq-analysis/metadata.csv"                    // Path to metadata file
 params.output_dir = "/home/DDGcarlos/Chipseq-analysis/Results"                       // Output directory
 params.max_mismatch = 4                                                              // Maximum mapping mismatch allowed
@@ -15,6 +15,10 @@ params.ext_size = 150                                                           
 Channel
     .fromPath("${params.fastq_dir}/*.fastq")
     .set { fastq_channel }
+
+// Define channel containing genome indexes
+genome_index_ch = Channel.fromPath(params.genome_index, checkIfExists: true)
+
 
 // Process 1: mapping using HISAT2
 process Mapping {
@@ -29,9 +33,8 @@ process Mapping {
     output:
     path "*.bam", emit: mapped_bam
 
-    def output_dir_mapping="${params.output_dir}/Mapped"
-
     script:
+    def output_dir_mapping="${params.output_dir}/Mapped"
     """
     mkdir -p ${output_dir_mapping}
     bash /home/DDGcarlos/Chipseq-analysis/Scripts/Mapping.sh
@@ -104,7 +107,7 @@ process PeakCalling {
 }
 
 workflow {
-    mapped_bam = Mapping(params.genome_index, fastq_channel)
+    mapped_bam = Mapping(genome_index_ch, fastq_channel)
     sorted_bam = PostMapping(mapped_bam, params.max_mismatch)
     PeakCalling(file(params.metadata), params.ext_size, sorted_bam.collect())
 }
