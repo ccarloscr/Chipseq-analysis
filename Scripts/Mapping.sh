@@ -14,12 +14,8 @@ FASTQ_FILE=$2
 OUTPUT_DIR=$3
 
 
-# Create directories
-mkdir -p "$OUTPUT_DIR"
-
-
 ## Check if the reference genome is available
-if [[ ! -f "${REFERENCE_GENOME}.1.ht2" ]]; then
+if [[ ! -f "${REFERENCE_GENOME}/dm3_index.1.ht2" ]]; then
     echo "Error: reference genome index files are not available." >&2
     exit 1
 fi
