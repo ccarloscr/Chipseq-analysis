@@ -2,7 +2,7 @@
 
 # Author: Carlos Camilleri-Robles
 # Contact: carloscamilleri@hotmail.com
-# Version: updated 18-02-2025
+# Version: updated 24-02-2025
 # This script uses HISAT2 to map single-end reads to dm3
 
 set -e
@@ -10,7 +10,7 @@ set -e
 
 ## Variable set up
 REFERENCE_GENOME=$1
-FASTQ_FILE=$2
+FASTQ_FILE=$(readlink -f "$2")
 OUTPUT_DIR=$3
 
 
