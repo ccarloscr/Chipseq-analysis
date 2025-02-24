@@ -3,8 +3,8 @@
 nextflow.enable.dsl=2
 
 // Default parameters
-params.fastq_dir = "/home/DDGcarlos/Chipseq-analysis/Chipseq-analysis/Fastq_files"   // Path to fastq files
-params.genome_index = "/home/DDGcarlos/Chipseq-analysis/dm3/dm3_index"               // Path to genome index
+params.fastq_dir = "/home/DDGcarlos/Chipseq-analysis/Fastq_files"                    // Path to fastq files
+params.genome_index = "/home/DDGcarlos/Chipseq-analysis/Genomes/dm3/dm3_index"       // Path to genome index
 params.metadata = "/home/DDGcarlos/Chipseq-analysis/metadata.csv"                    // Path to metadata file
 params.output_dir = "/home/DDGcarlos/Chipseq-analysis/Results"                       // Output directory
 params.max_mismatch = 4                                                              // Maximum mapping mismatch allowed
@@ -29,10 +29,12 @@ process Mapping {
     output:
     path "*.bam", emit: mapped_bam
 
+    def output_dir_mapping="${params.output_dir}/Mapped"
+
     script:
-    output_dir_mapping="${params.output_dir}/Mapped"
     """
-    bash /Chipseq-analysis/Scripts/Mapping.sh
+    mkdir -p ${output_dir_mapping}
+    bash /home/DDGcarlos/Chipseq-analysis/Scripts/Mapping.sh
         "${genome_index}"                  # Genome index directory
         "${fastq_file}"                    # Input fastq files from fastq_channel
         "${output_dir_mapping}"            # Output directory
@@ -65,7 +67,7 @@ process PostMapping {
     // Run processing script
     script:
     """
-    bash /Chipseq-analysis/Scripts/Post-map-process.sh 
+    bash /home/DDGcarlos/Chipseq-analysis/Scripts/Post-map-process.sh 
         "${bam_file}"                # Input files from the mapped_bam channel
         "${filtered_dir}"            # Filtered .bam files directory
         "${sorted_dir}"              # Sorted .bam files directory
@@ -93,7 +95,7 @@ process PeakCalling {
     // Run peak calling script
     script:
     """
-    bash /Chipseq-analysis/Scripts/Peak-calling.sh
+    bash /home/DDGcarlos/Chipseq-analysis/Scripts/Peak-calling.sh
         "${metadata}"                  # Metadata file
         "${ext_size}"                  # Average fragment length (i.e. minimal peak size)
         "${sorted_dir}"                # Bam files used as input
