@@ -11,11 +11,6 @@ params.max_mismatch = 4                                                        /
 params.ext_size = 150                                                          // Average fragment length; i.e. maximum peak size
 
 
-// Define a channel to access each .fastq file within the fastq_dir directory
-Channel
-    .fromPath("${params.fastq_dir}/*.fastq")
-    .set { fastq_channel }
-
 
 // Process 1: mapping using HISAT2
 process Mapping {
@@ -23,8 +18,8 @@ process Mapping {
 
     // Define input: fastq elements from the fastq_channel defined previously
     input:
-    val genome_index
-    path fastq_file
+    path genome_index
+    path fastq_files
 
     // Capture output .bam files into mapped_bam channel
     output:
@@ -38,7 +33,7 @@ process Mapping {
     echo "Fastq file received: ${fastq_file}"
     bash /home/DDGcarlos/Chipseq-analysis/Scripts/Mapping.sh \\
         "${genome_index}" \\                  # Genome index directory
-        "${fastq_file}" \\                    # Input fastq files from fastq_channel
+        "${fastq_files}" \\                   # Input fastq files
         "${output_dir_mapping}" \\            # Output directory
     """
 }
@@ -106,7 +101,8 @@ process PeakCalling {
 }
 
 workflow {
-    mapped_bam = Mapping(params.genome_index, fastq_channel)
+    def fastq_files = Channel.fromPath("${params.fastq_dir}/*.fastq")
+    mapped_bam = Mapping(params.genome_index, fastq_files)
     sorted_bam = PostMapping(mapped_bam, params.max_mismatch)
     PeakCalling(file(params.metadata), params.ext_size, sorted_bam.collect())
 }
