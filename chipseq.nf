@@ -30,7 +30,7 @@ process Mapping {
     """
     mkdir -p ${output_dir_mapping}
     echo "Genome index directory: ${genome_index}"
-    echo "Fastq file received: ${fastq_file}"
+    echo "Fastq file received: ${fastq_files}"
     bash /home/DDGcarlos/Chipseq-analysis/Scripts/Mapping.sh \\
         "${genome_index}" \\                  # Genome index directory
         "${fastq_files}" \\                   # Input fastq files
