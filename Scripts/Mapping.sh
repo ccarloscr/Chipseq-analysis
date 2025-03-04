@@ -10,7 +10,7 @@ set -e
 
 ## Variable set up
 REFERENCE_GENOME=$1
-FASTQ_FILE=$(readlink -f "$2")
+FASTQ_FILE=$2
 OUTPUT_DIR=$3
 
 
