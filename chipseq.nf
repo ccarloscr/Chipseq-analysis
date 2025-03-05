@@ -5,6 +5,7 @@ nextflow.enable.dsl=2
 // Default parameters
 params.scripts_dir = "/home/DDGcarlos/Chipseq-analysis/Scripts"
 params.fastq_dir = "/home/DDGcarlos/Chipseq-analysis/Fastq_files"
+params.genome_index = "/home/DDGcarlos/Chipseq-analysis/Genomes/dm3"
 params.genome_index_base = "/home/DDGcarlos/Chipseq-analysis/Genomes/dm3/dm3_index"
 params.metadata = "/home/DDGcarlos/Chipseq-analysis/metadata.csv"
 params.output_dir = "/home/DDGcarlos/Chipseq-analysis/Results"
