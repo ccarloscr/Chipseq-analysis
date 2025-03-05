@@ -29,7 +29,7 @@ process Mapping {
     mkdir -p ${output_dir_mapping}
     echo "Fastq file received: ${fastq_files}"
     echo "Using index base: ${params.genome_index_base}"
-    bash "${params.script_dir}/Mapping.sh" "${genome_index}" "${fastq_files}" "${output_dir_mapping}"
+    bash "${params.scripts_dir}/Mapping.sh" "${fastq_files}" "${genome_index}" "${output_dir_mapping}"
     """
 }
 
@@ -95,9 +95,12 @@ process PeakCalling {
     """
 }
 
+
+// Workflow
 workflow {
     def fastq_files = Channel.fromPath("${params.fastq_dir}/*.fastq")
-    mapped_bam = Mapping(params.genome_index, fastq_files)
+    def genome_index_files = Channel.fromPath("${params.genome_index}/*.ht2").collect()
+    mapped_bam = Mapping(fastq_files, genome_index_files)
     sorted_bam = PostMapping(mapped_bam, params.max_mismatch)
     PeakCalling(file(params.metadata), params.ext_size, sorted_bam.collect())
 }
