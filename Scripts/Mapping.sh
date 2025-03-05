@@ -15,7 +15,7 @@ echo "Using HISAT2 from: $(which hisat2)"
 ## Variable set up
 FASTQ_FILE=$1
 REFERENCE_GENOME_FILES=($2)
-REFERENCE_GENOME="${REFERENCE_GENOME_FILES[0]%.[1-9].ht2}"
+REFERENCE_GENOME_BASE=$(basename "${REFERENCE_GENOME_FILES[0]}" | sed 's/\.[0-9]\.ht2//')
 OUTPUT_DIR=$3
 
 ## Check if the input fastq file is correct
@@ -26,9 +26,9 @@ if [[ ! -f $FASTQ_FILE ]]; then
 fi
 
 ## Check if the reference genome is available
-echo "Checking refrence genome index: $REFERENCE_GENOME"
-if [[ ! -f "${REFERENCE_GENOME}/dm3_index.1.ht2" ]]; then
-    echo "Error: reference genome index files are not available." >&2
+echo "Checking reference genome index: $REFERENCE_GENOME"
+if [[ ! -f "${REFERENCE_GENOME}.1.ht2" ]]; then
+    echo "Error: reference genome index ${REFERENCE_GENOME}.1.ht2 not available." >&2
     exit 1
 fi
 
