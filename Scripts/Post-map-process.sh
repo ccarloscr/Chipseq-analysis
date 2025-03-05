@@ -9,17 +9,16 @@ set -e
 
 ## Variable set up
 INPUT_BAM="$1"
-FILTERED_DIR="$2"
-SORTED_DIR="$3"
-MAX_MISMATCH="$4"
+OUTPUT_DIR="$2"
+MAX_MISMATCH="$3"
 
 ## Get basename of input .bam files
 base_name=$(basename "$INPUT_BAM" .bam)
 base_name=${base_name%_mapped}
 
 ## Define outputs
-filtered_bam="$FILTERED_DIR/${base_name}_filtered.bam"
-sorted_bam="$SORTED_DIR/${base_name}_sorted.bam"
+filtered_bam="$OUTPUT_DIR/${base_name}_filtered.bam"
+sorted_bam="$OUTPUT_DIR/${base_name}_sorted.bam"
 
 ## Filter reads with less mismatches than max set
 echo "Filtering $INPUT_BAM..."
