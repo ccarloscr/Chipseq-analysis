@@ -74,7 +74,7 @@ process PeakCalling {
     input:
     path metadata
     val ext_size
-    path sorted_bam_files
+    path sorted_bam_dir
 
     // Define output directory and capture output .narrowPeak files into narrow_peaks channel
     output:
@@ -83,7 +83,7 @@ process PeakCalling {
     // Run peak calling script
     script:
     """
-    bash "${params.scripts_dir}/Peak-calling.sh" "${metadata}" "${ext_size}" "${sorted_bam_files}" "."
+    bash "${params.scripts_dir}/Peak-calling.sh" "${metadata}" "${ext_size}" "${sorted_bam_dir}" "."
     """
 }
 
@@ -94,5 +94,6 @@ workflow {
     def genome_index_files = Channel.fromPath("${params.genome_index}/*.ht2").collect()
     mapped_bam = Mapping(fastq_files, genome_index_files)
     sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
-    PeakCalling(file(params.metadata), params.ext_size, sorted_bam.collect())
+    sorted_bam_dir = sorted_bam.collect().map { file -> file.parent }.unique()
+    PeakCalling(file(params.metadata), params.ext_size, sorted_bam_dir)
 }
