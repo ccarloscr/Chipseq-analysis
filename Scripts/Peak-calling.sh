@@ -4,6 +4,10 @@
 ## This peak calling is optimized for reads with no strand information
 ## For strand-specific reads, remove the --nomodel and --extsize options of the macs2 callpeak
 
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate workplace || { echo "Error: Conda environment not activated!"; exit 1; }
+echo "Using MACS2 from: $(which macs2)"
+
 set -e
 
 ## Variable set up
