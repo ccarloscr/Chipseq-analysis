@@ -30,7 +30,7 @@ process Mapping {
     mkdir -p ${output_dir_mapping}
     echo "Fastq file received: ${fastq_files}"
     echo "Using index base: ${params.genome_index_base}"
-    bash "${params.scripts_dir}/Mapping.sh" "${fastq_files}" "${params.genome_index_base}" "${output_dir_mapping}"
+    bash "${params.scripts_dir}/Mapping.sh" "${fastq_files}" "${genome_index_files}" "${output_dir_mapping}"
     """
 }
 
