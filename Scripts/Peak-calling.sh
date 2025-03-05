@@ -12,22 +12,16 @@ EXTSIZE="$2"
 INPUT_DIR="$3"
 OUTPUT_DIR="$4"
 
-
 ## Ensure metadata file exists
 if [[ ! -f "$METADATA_FILE" ]]; then
     echo "Error: Metadata file $METADATA_FILE not found." >&2
     exit 1
 fi
 
-
-## Create directories
-mkdir -p "$OUTPUT_DIR"
-
-
 ## Read the first 5 columns of the metadata file
 tail -n +2 "$METADATA_FILE" | while IFS=$',' read -r INPUT_NAME EXP_NAME ANTIBODY CONDITION REP _; do
-    INPUT_BAM="$INPUT_DIR/${INPUT_NAME}_sorted.bam"
-    EXP_BAM="$INPUT_DIR/${EXP_NAME}_sorted.bam"
+    INPUT_BAM="${INPUT_DIR}/${INPUT_NAME}_sorted.bam"
+    EXP_BAM="${INPUT_DIR}/${EXP_NAME}_sorted.bam"
     OUTPUT_NAME="${ANTIBODY}_${CONDITION}_${REP}"
 
     # Verify if the input file exists
