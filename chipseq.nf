@@ -16,6 +16,7 @@ params.ext_size = 150    // Average fragment length; i.e. maximum peak size
 // Process 1: mapping using HISAT2
 process Mapping {
     tag "Mapping Process"
+    publishDir "${params.output_dir}/Mapped", mode: 'copy', pattern: '*.bam', overwrite: true
 
     input:
     path fastq_files
@@ -30,7 +31,7 @@ process Mapping {
     mkdir -p ${output_dir_mapping}
     echo "Fastq file received: ${fastq_files}"
     echo "Using index base: ${params.genome_index_base}"
-    bash "${params.scripts_dir}/Mapping.sh" "${fastq_files}" "${genome_index_files}" "${output_dir_mapping}"
+    bash "${params.scripts_dir}/Mapping.sh" "${fastq_files}" "${genome_index_files}" "."
     """
 }
 
