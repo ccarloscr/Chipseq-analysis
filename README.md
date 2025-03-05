@@ -23,7 +23,7 @@ This workflow depends on multiple tools and libraries, which are installed in th
 
 To create the required conda environment:
 ```bash
-conda env create -f environment.yml -n workplace
+conda env create -f environment.yml -n chipseq_env
 ```
 
 The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. For the _Drosophila melanogaster_ dm3 genome, run the following code once in order to: (1) download the dm3 genome from UCSC, (2) activate the conda environment to get access to HISAT2, and (3) run HISAT2 to build the index of the downloaded genome.
