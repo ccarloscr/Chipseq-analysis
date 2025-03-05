@@ -3,25 +3,23 @@
 nextflow.enable.dsl=2
 
 // Default parameters
-params.fastq_dir = "/home/DDGcarlos/Chipseq-analysis/Fastq_files"              // Path to fastq files
-params.genome_index = "/home/DDGcarlos/Chipseq-analysis/Genomes/dm3"           // Path to genome index
-params.metadata = "/home/DDGcarlos/Chipseq-analysis/metadata.csv"              // Path to metadata file
-params.output_dir = "/home/DDGcarlos/Chipseq-analysis/Results"                 // Output directory
-params.max_mismatch = 4                                                        // Maximum mapping mismatch allowed
-params.ext_size = 150                                                          // Average fragment length; i.e. maximum peak size
-
+params.scripts_dir = "/home/DDGcarlos/Chipseq-analysis/Scripts"
+params.fastq_dir = "/home/DDGcarlos/Chipseq-analysis/Fastq_files"
+params.genome_index_base = "/home/DDGcarlos/Chipseq-analysis/Genomes/dm3/dm3_index"
+params.metadata = "/home/DDGcarlos/Chipseq-analysis/metadata.csv"
+params.output_dir = "/home/DDGcarlos/Chipseq-analysis/Results"
+params.max_mismatch = 4    // Maximum mismatch base pairs allowed per alignment
+params.ext_size = 150    // Average fragment length; i.e. maximum peak size
 
 
 // Process 1: mapping using HISAT2
 process Mapping {
     tag "Mapping Process"
 
-    // Define input: fastq elements from the fastq_channel defined previously
     input:
-    path genome_index
     path fastq_files
+    path genome_index_files
 
-    // Capture output .bam files into mapped_bam channel
     output:
     path "*.bam", emit: mapped_bam
 
@@ -29,12 +27,9 @@ process Mapping {
     def output_dir_mapping="${params.output_dir}/Mapped"
     """
     mkdir -p ${output_dir_mapping}
-    echo "Genome index directory: ${genome_index}"
     echo "Fastq file received: ${fastq_files}"
-    bash /home/DDGcarlos/Chipseq-analysis/Scripts/Mapping.sh \\
-        "${genome_index}" \\                  # Genome index directory
-        "${fastq_files}" \\                   # Input fastq files
-        "${output_dir_mapping}" \\            # Output directory
+    echo "Using index base: ${params.genome_index_base}"
+    bash "${params.script_dir}/Mapping.sh" "${genome_index}" "${fastq_files}" "${output_dir_mapping}"
     """
 }
 
