@@ -59,11 +59,7 @@ process PostMapping {
     // Run processing script
     script:
     """
-    bash /home/DDGcarlos/Chipseq-analysis/Scripts/Post-map-process.sh \\
-        "${bam_file}" \\               # Input files from the mapped_bam channel
-        "${filtered_dir}" \\           # Filtered .bam files directory
-        "${sorted_dir}" \\             # Sorted .bam files directory
-        "${max_mismatch}" \\           # Maximum number of mismatches allowed
+    bash "${params.scripts_dir}/Post-map-process.sh "${bam_file}" "${filtered_dir}" "${sorted_dir}" "${max_mismatch}"
     """
 }
 
