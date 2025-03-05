@@ -16,7 +16,10 @@ params.ext_size = 150    // Average fragment length; i.e. maximum peak size
 // Process 1: mapping using HISAT2
 process Mapping {
     tag "Mapping Process"
-    publishDir "${params.output_dir}/Mapped", mode: 'copy', pattern: '*.bam', overwrite: true
+    publishDir "${params.output_dir}/Mapped",
+        mode: 'copy',
+        pattern: '*.bam',
+        overwrite: true
 
     input:
     path fastq_files
@@ -38,21 +41,15 @@ process Mapping {
 // Process 2: Filtering, sorting and indexing of .bam files
 process PostMapping {
     tag "Post-Mapping Process"
-
-    // Publish all sorted bam files into a common directory
     publishDir "${params.output_dir}/Sorted",
         mode: 'copy',
-        pattern: '*.bam',
+        pattern: '*_sorted.bam',
         overwrite: true
 
     // Define input: each .bam file from the mapped_bam channel and the parameter defined as param.max_mismatch
     input:
     path bam_file
     val max_mismatch
-
-    // Define output directories
-    def filtered_dir = "${params.output_dir}/Filtered"
-    def sorted_dir = "${params.output_dir}/Sorted"
 
     // Pass sorted .bam files
     output:
@@ -61,36 +58,32 @@ process PostMapping {
     // Run processing script
     script:
     """
-    mkdir -p ${filtered_dir} ${sorted_dir}
-    bash "${params.scripts_dir}/Post-map-process.sh" "${bam_file}" "${filtered_dir}" "${sorted_dir}" "${max_mismatch}"
+    bash "${params.scripts_dir}/Post-map-process.sh" "${bam_file}" "." "${max_mismatch}"
     """
 }
 
 // Process 3: Peak calling using MACS2
 process PeakCalling {
     tag "Peak-Calling Process"
+    publishDir "${params.output_dir}/Peaks-called",
+        mode: 'copy',
+        pattern: '*.narrowPeak',
+        overwrite: true
 
     // Define input: each .bam file from the sorted_bam channel
     input:
     path metadata
     val ext_size
-    path sorted_dir
-
-    // Define output directory
-    def peaks_dir = "${params.output_dir}/Peak_calling"
+    path sorted_bam_files
 
     // Define output directory and capture output .narrowPeak files into narrow_peaks channel
     output:
-    path "${peaks_dir}/*.narrowPeak", emit: narrow_peaks
+    path "*.narrowPeak", emit: narrow_peaks
 
     // Run peak calling script
     script:
     """
-    bash /home/DDGcarlos/Chipseq-analysis/Scripts/Peak-calling.sh \\
-        "${metadata}" \\                 # Metadata file
-        "${ext_size}" \\                 # Average fragment length (i.e. minimal peak size)
-        "${sorted_dir}" \\               # Bam files used as input
-        "${peaks_dir}" \\                # Output directory
+    bash "${params.scripts_dir}/Peak-calling.sh" "${metadata}" "${ext_size}" "${sorted_bam_files}" "."
     """
 }
 
