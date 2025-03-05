@@ -62,7 +62,27 @@ process PostMapping {
     """
 }
 
-// Process 3: Peak calling using MACS2
+// Process 3: Collect al _sorted.bam files into a signle directory
+process CollectBams {
+    tag "Collect BAMs"
+    publishDir "${params.output_dir}/Sorted",
+        mode: 'copy',
+        overwrite: true
+
+    input:
+    path bam_files
+
+    output:
+    path "sorted_bams/*.bam", emit: sorted_bam_dir
+
+    script:
+    """
+    mkdir -p sorted_bams
+    cp ${bam_files} sorted_bams/
+    """
+}
+
+// Process 4: Peak calling using MACS2
 process PeakCalling {
     tag "Peak-Calling Process"
     publishDir "${params.output_dir}/Peaks-called",
@@ -94,6 +114,6 @@ workflow {
     def genome_index_files = Channel.fromPath("${params.genome_index}/*.ht2").collect()
     mapped_bam = Mapping(fastq_files, genome_index_files)
     sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
-    sorted_bam_dir = sorted_bam.collect().map { file -> file.parent }.unique()
-    PeakCalling(file(params.metadata), params.ext_size, sorted_bam_dir)
+    collected_bams = CollectBams(sorted_bam.collect())
+    PeakCalling(file(params.metadata), params.ext_size, collected_bams.out.sorted_bams_dir)
 }
