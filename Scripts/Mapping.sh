@@ -14,7 +14,8 @@ echo "Using HISAT2 from: $(which hisat2)"
 
 ## Variable set up
 FASTQ_FILE=$1
-REFERENCE_GENOME=$2
+REFERENCE_GENOME_FILES=($2)
+REFERENCE_GENOME="${REFERENCE_GENOME_FILES[0]%.[1-9].ht2}"
 OUTPUT_DIR=$3
 
 ## Check if the input fastq file is correct
