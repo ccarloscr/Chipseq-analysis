@@ -73,7 +73,7 @@ process CollectBams {
     path bam_files
 
     output:
-    path "sorted_bams/*.bam", emit: sorted_bam_dir
+    path "sorted_bams/", emit: sorted_bam_dir
 
     script:
     """
@@ -115,5 +115,5 @@ workflow {
     mapped_bam = Mapping(fastq_files, genome_index_files)
     sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
     collected_bams = CollectBams(sorted_bam.collect())
-    PeakCalling(file(params.metadata), params.ext_size, collected_bams.out.sorted_bams_dir)
+    PeakCalling(file(params.metadata), params.ext_size, collected_bams)
 }
