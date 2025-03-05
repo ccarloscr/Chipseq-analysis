@@ -97,7 +97,7 @@ process PeakCalling {
 // Workflow
 workflow {
     def fastq_files = Channel.fromPath("${params.fastq_dir}/*.fastq")
-    def genome_index_files = Channel.fromPath("${params.genome_index_base}/*.ht2").collect()
+    def genome_index_files = Channel.fromPath("${params.genome_index}/*.ht2").collect()
     mapped_bam = Mapping(fastq_files, genome_index_files)
     sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
     PeakCalling(file(params.metadata), params.ext_size, sorted_bam.collect())
