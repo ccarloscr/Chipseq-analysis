@@ -78,7 +78,7 @@ process CollectBams {
     script:
     """
     mkdir -p sorted_bams
-    cp ${bam_files} sorted_bams/
+    cp -t sorted_bams/ ${bam_files}
     """
 }
 
@@ -103,6 +103,8 @@ process PeakCalling {
     // Run peak calling script
     script:
     """
+    echo "Checking contents of sorted_bams:"
+    ls -lh sorted_bams
     bash "${params.scripts_dir}/Peak-calling.sh" "${metadata}" "${ext_size}" "${sorted_bam_dir}" "."
     """
 }
