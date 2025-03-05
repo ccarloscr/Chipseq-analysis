@@ -29,7 +29,7 @@ process Mapping {
     mkdir -p ${output_dir_mapping}
     echo "Fastq file received: ${fastq_files}"
     echo "Using index base: ${params.genome_index_base}"
-    bash "${params.scripts_dir}/Mapping.sh" "${fastq_files}" "${genome_index}" "${output_dir_mapping}"
+    bash "${params.scripts_dir}/Mapping.sh" "${fastq_files}" "${params.genome_index_base}" "${output_dir_mapping}"
     """
 }
 
@@ -54,12 +54,13 @@ process PostMapping {
 
     // Pass sorted .bam files
     output:
-    path "${sorted_dir}/*.bam", emit: sorted_bam
+    path "*_sorted.bam", emit: sorted_bam
 
     // Run processing script
     script:
     """
-    bash "${params.scripts_dir}/Post-map-process.sh "${bam_file}" "${filtered_dir}" "${sorted_dir}" "${max_mismatch}"
+    mkdir -p ${filtered_dir} ${sorted_dir}
+    bash "${params.scripts_dir}/Post-map-process.sh" "${bam_file}" "${filtered_dir}" "${sorted_dir}" "${max_mismatch}"
     """
 }
 
@@ -97,6 +98,6 @@ workflow {
     def fastq_files = Channel.fromPath("${params.fastq_dir}/*.fastq")
     def genome_index_files = Channel.fromPath("${params.genome_index}/*.ht2").collect()
     mapped_bam = Mapping(fastq_files, genome_index_files)
-    sorted_bam = PostMapping(mapped_bam, params.max_mismatch)
+    sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
     PeakCalling(file(params.metadata), params.ext_size, sorted_bam.collect())
 }
