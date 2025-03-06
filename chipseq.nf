@@ -4,15 +4,17 @@ nextflow.enable.dsl=2
 
 // Default parameters
 params.home_dir = "/home/DDGcarlos/Chipseq-analysis"
-params.genome = "dm3"    // Reference genome
+params.genome = "dm3"                                        // Reference genome
 params.scripts_dir = "${params.home_dir}/Scripts"
 params.fastq_dir = "${params.home_dir}/Fastq_files"
 params.genome_index = "${params.home_dir}/Genomes/${params.genome}"
 params.genome_index_base = "${params.home_dir}/Genomes/${params.genome}/${params.genome}_index"
 params.metadata = "${params.home_dir}/metadata.csv"
 params.output_dir = "${params.home_dir}/Results"
-params.max_mismatch = 4    // Maximum mismatch base pairs allowed per alignment
-params.ext_size = 150    // Average fragment length; i.e. maximum peak size
+params.max_mismatch = 4                                     // Maximum mismatch base pairs allowed per alignment
+params.ext_size = 150                                       // Average fragment length; i.e. maximum peak size
+params.around_tss = 500                                     // Number of bases around the TSS considered for peak annotation
+params.canonical_chromosomes = ["chr2L", "chr2R", "chr3L", "chr3R", "chr4", "chrX", "chrY"] 
 
 
 // Process 1: mapping using HISAT2
@@ -122,13 +124,18 @@ process LiftOver_Annotation {
 
     input:
     path narrow_peak_files
+    val around_tss
+    val canonical_chromosomes
+    val dm_genome
 
     output:
     path "*_annot-dm6.txt", emit: annotated_peaks
 
     script:
+    chromosomes_str = canonical_chromosomes.join(',')
     """
-    Rscript "${params.scripts_dir}/Peak-annotation.R" "$PWD"
+    input_dir="${narrow_peak_files[0].parent}"
+    Rscript "${params.scripts_dir}/Peak-annotation.R" "\${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "\PWD"
     """
 }
 
@@ -142,5 +149,5 @@ workflow {
     sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
     collected_bams = CollectBams(sorted_bam.collect())
     narrow_peaks = PeakCalling(file(params.metadata), params.ext_size, collected_bams)
-    LiftOver_Annotation(narrow_peaks)
+    LiftOver_Annotation(narrow_peaks, Channel.value(params.around_tss), Channel.value(params.canonical_chromosomes), Channel.value(params.genome))
 }
