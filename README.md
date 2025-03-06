@@ -46,6 +46,13 @@ hisat2-build dm3.fa dm3_index
 
 ## Configuration
 
+#### Change the default parameters in chipseq.nf
+The [`chipseq.nf`](chipseq.nf) script uses several parameters defined in the first lines (Default parameters). You should only check the following parameters:
+
+- params.home_dir: change to the absolute path were you cloned this repository.
+- params.max_mismatch: maximum number of mismatches allowed during the mapping step (default: 4).
+- params.ext_size: average chip-seq fragment length or maximum peak size (default: 150).
+
 #### Change the nextflow.config file
 The main nextflow script [`chipseq.nf`](chipseq.nf) uses the [`nextflow.config`](nextflow.config) configuration. The provided options use SLURM to connect to the irbio01 HPC cluster. Change the [`nextflow.config`](nextflow.config) according to your preferences.
 
