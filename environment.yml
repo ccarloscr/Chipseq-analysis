@@ -9,3 +9,4 @@ dependencies:
   - samtools
   - bedtools
   - macs2
+  - r-base
