@@ -70,7 +70,7 @@ hisat2-build dm6.fa dm6_index
 ## Configuration
 
 #### Change the default parameters in chipseq.nf
-The [`chipseq.nf`](chipseq.nf) script uses several parameters defined in the first lines (Default parameters). You should only check the following parameters:
+The [`chipseq.nf`](chipseq.nf) script uses several parameters defined in the first lines (Default parameters). You should only change the following:
 
 - params.home_dir: change to the absolute path were you cloned this repository.
 - params.max_mismatch: maximum number of mismatches allowed during the mapping step (default: 4).
