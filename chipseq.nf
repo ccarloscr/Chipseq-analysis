@@ -126,7 +126,7 @@ process LiftOver_Annotation {
 
     script:
     """
-    Rscript "${params.scripts_dir}/Peak-annotation.R"
+    Rscript "${params.scripts_dir}/Peak-annotation.R" "$PWD"
     """
 }
 
