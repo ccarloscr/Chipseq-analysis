@@ -10,6 +10,7 @@ params.genome_index = "${params.home_dir}/Genomes/dm3"
 params.genome_index_base = "${params.home_dir}/Genomes/dm3/dm3_index"
 params.metadata = "${params.home_dir}/metadata.csv"
 params.output_dir = "${params.home_dir}/Results"
+params.genome = "dm3"    // Reference genome
 params.max_mismatch = 4    // Maximum mismatch base pairs allowed per alignment
 params.ext_size = 150    // Average fragment length; i.e. maximum peak size
 
