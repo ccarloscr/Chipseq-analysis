@@ -28,7 +28,9 @@ conda env create -f environment.yml -n chipseq_env
 
 ## Build the reference genome
 
-The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. To do so you should download the fasta file of your reference genome and build it using the hisat2-build command. Use the code below to download and build the dm3 or dm6 genomes of _Drosophila melanogaster_.
+The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. For this, you should download the fasta file of your reference genome and build it using the hisat2-build command.
+
+The code below is used to download and build the dm3 or dm6 genomes of _Drosophila melanogaster_. For other genomes, search for the fasta file of your reference genome here https://hgdownload.soe.ucsc.edu/downloads.html.
 
 #### dm3 genome
 ```bash
