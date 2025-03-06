@@ -68,11 +68,17 @@ else {stop("Unzipped file does not exist: ", chain_file_unzipped)
 
 ## Create a list of GRanges from the .narrowPeak files
 
-# Set the input folder location
-input_folder <- "Chipseq-analysis/Peaks"
+# Set the input folder location from Nextflow
+args <- commandArgs(trailingOnly = TRUE)
+input_folder <- args[1]
 
 # List all .narrowPeak files
 input_files <- list.files(input_folder, pattern = "\\.narrowPeak$", full.names = TRUE)
+
+# Check the presence of .narrowPeak files
+if (length(input_files) == 0) {
+  stop("No .narrowPeak files found in directory: ", input_folder)
+}
 
 # Create list of GRange objects (one for each .narrowPeak file)
 peaks_list <- input_files %>%
