@@ -110,6 +110,28 @@ process PeakCalling {
 }
 
 
+// Process 5: LiftOver and annotation of peaks
+process LiftOver_Annotation {
+    tag "LiftOVer and Annot Process"
+    publishDir "${params.output_dir}/Annotated-peaks-dm6",
+        mode: 'copy',
+        pattern: '*_annot-dm6.txt',
+        overwrite: true
+
+    input:
+    path narrow_peak_files
+
+    output:
+    path "*_annot-dm6.txt", emit: annotated_peaks
+
+    script:
+    """
+    Rscript "${params.scripts_dir}/Peak-annotation.R"
+    """
+}
+
+
+
 // Workflow
 workflow {
     def fastq_files = Channel.fromPath("${params.fastq_dir}/*.fastq")
@@ -117,5 +139,6 @@ workflow {
     mapped_bam = Mapping(fastq_files, genome_index_files)
     sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
     collected_bams = CollectBams(sorted_bam.collect())
-    PeakCalling(file(params.metadata), params.ext_size, collected_bams)
+    narrow_peaks = PeakCalling(file(params.metadata), params.ext_size, collected_bams)
+    LiftOver_Annotation(narrow_peaks)
 }
