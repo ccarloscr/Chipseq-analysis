@@ -26,7 +26,11 @@ To create the required conda environment:
 conda env create -f environment.yml -n chipseq_env
 ```
 
-The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. For the _Drosophila melanogaster_ dm3 genome, run the following code once in order to: (1) download the dm3 genome from UCSC, (2) activate the conda environment to get access to HISAT2, and (3) run HISAT2 to build the index of the downloaded genome.
+## Build the reference genome
+
+The [`Mapping.sh`](Scripts/Mapping.sh) script uses HISAT2 for the alignment of reads. HISAT2 requires the reference genome to work. To do so you should download the fasta file of your reference genome and build it using the hisat2-build command. Use the code below to download and build the dm3 or dm6 genomes of _Drosophila melanogaster_.
+
+#### dm3 genome
 ```bash
 # Create the directory:
 mkdir -p ~/Chipseq-analysis/Genomes/dm3
@@ -41,6 +45,23 @@ conda activate chipseq_env
 
 # Build the dm3 genome
 hisat2-build dm3.fa dm3_index
+```
+
+#### dm6 genome
+```bash
+# Create the directory:
+mkdir -p ~/Chipseq-analysis/Genomes/dm6
+cd ~/Chipseq-analysis/Genomes/dm6
+
+# Download the dm6 genome from UCSC
+wget http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm6.fa.gz
+gunzip dm6.fa.gz
+
+# Activate the conda environment to get access to HISAT2
+conda activate chipseq_env
+
+# Build the dm6 genome
+hisat2-build dm6.fa dm6_index
 ```
 
 
