@@ -73,6 +73,7 @@ hisat2-build dm6.fa dm6_index
 The [`chipseq.nf`](chipseq.nf) script uses several parameters defined in the first lines (Default parameters). You should only change the following:
 
 - params.home_dir: change to the absolute path were you cloned this repository.
+- params.genome: reference genome used for mapping (default: dm3).
 - params.max_mismatch: maximum number of mismatches allowed during the mapping step (default: 4).
 - params.ext_size: average chip-seq fragment length or maximum peak size (default: 150).
 
