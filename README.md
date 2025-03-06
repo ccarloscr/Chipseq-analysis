@@ -2,7 +2,7 @@
 
 This workflow processes, maps and analises pre-filtered .fastq files from ChIP-seq experiments. The pipeline is optimized for histone marks, but the fragment length parameters can be adjusted for other proteins.
 
-The main Nextflow script [`chipseq.nf`](chipseq.nf) orchestrates the pipeline by calling the Bash scripts located in the [`Scripts/`](Scripts/) directory. Each Bash script corresponds to a specific step in the workflow:
+The main Nextflow script [`chipseq.nf`](chipseq.nf) orchestrates the pipeline by calling the scripts located in the [`Scripts/`](Scripts/) directory. Each script corresponds to a specific step in the workflow:
 
 - [`Mapping.sh`](Scripts/Mapping.sh): Read mapping using HISAT2.
 - [`Post-map-process.sh`](Scripts/Post-map-process.sh): Filtering, sorting and indexing of aligned files.
