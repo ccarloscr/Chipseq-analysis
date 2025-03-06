@@ -135,7 +135,7 @@ process LiftOver_Annotation {
     chromosomes_str = canonical_chromosomes.join(',')
     """
     input_dir="${narrow_peak_files[0].parent}"
-    Rscript "${params.scripts_dir}/Peak-annotation.R" "\${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "\PWD"
+    Rscript "${params.scripts_dir}/Peak-annotation.R" "\${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "$PWD"
     """
 }
 
