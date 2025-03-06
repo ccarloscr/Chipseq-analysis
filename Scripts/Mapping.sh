@@ -9,7 +9,7 @@ set -e
 
 ## Check that conda encironment is activated
 source ~/miniconda3/etc/profile.d/conda.sh
-conda activate workplace || { echo "Error: Conda environment not activated!"; exit 1; }
+conda activate chipseq_env || { echo "Error: Conda environment not activated!"; exit 1; }
 echo "Using HISAT2 from: $(which hisat2)"
 
 ## Variable set up
