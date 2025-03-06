@@ -1,7 +1,12 @@
 #!/usr/bin/env Rscript
 
 ## Comments
-## This R script transforms dm3 peaks into dm6, filters out non-canonical chromosomes, and annotates its genomic features.
+## This R script is designed specifically for Drosophila melanogaster genomes dm3 or dm6
+## First, if the reference genome is dm3, performs a liftOver to dm6
+## Then, non-canonical chromosomes are filtered and peaks are annotated to genomic features
+### Other genomes could be used if canonical_chromosomes and TxDb genome files are changed
+
+
 
 ## Define variables
 around_tss <- 500    # Sets the bp range around the TSS
