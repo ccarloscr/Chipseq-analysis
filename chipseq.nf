@@ -4,13 +4,13 @@ nextflow.enable.dsl=2
 
 // Default parameters
 params.home_dir = "/home/DDGcarlos/Chipseq-analysis"
+params.genome = "dm3"    // Reference genome
 params.scripts_dir = "${params.home_dir}/Scripts"
 params.fastq_dir = "${params.home_dir}/Fastq_files"
-params.genome_index = "${params.home_dir}/Genomes/dm3"
-params.genome_index_base = "${params.home_dir}/Genomes/dm3/dm3_index"
+params.genome_index = "${params.home_dir}/Genomes/${params.genome}"
+params.genome_index_base = "${params.home_dir}/Genomes/${params.genome}/${params.genome}_index"
 params.metadata = "${params.home_dir}/metadata.csv"
 params.output_dir = "${params.home_dir}/Results"
-params.genome = "dm3"    // Reference genome
 params.max_mismatch = 4    // Maximum mismatch base pairs allowed per alignment
 params.ext_size = 150    // Average fragment length; i.e. maximum peak size
 
