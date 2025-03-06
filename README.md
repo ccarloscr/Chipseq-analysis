@@ -46,8 +46,12 @@ hisat2-build dm3.fa dm3_index
 
 ## Configuration
 
-The main nextflow script uses the [`nextflow.config`](nextflow.config) configuration. The provided options use SLURM to connect to the irbio01 HPC cluster. Change according to your HPC cluster.
+#### Change the nextflow.config file
+The main nextflow script [`chipseq.nf`](chipseq.nf) uses the [`nextflow.config`](nextflow.config) configuration. The provided options use SLURM to connect to the irbio01 HPC cluster. Change the [`nextflow.config`](nextflow.config) according to your preferences.
 
-The [`metadata.csv`](metadata.csv) file contains the necessary information to pair the input and experimental samples. In the first and second columns, you should place the sample names of the input and the corresponding experimental sample, respectively. In the third column you should place the antibody used, in the fourth column the genotype, and in the fifth column the replicate number.
+#### Change or ignore the run_chipseq.nf script
+The [`run_chipseq.nf`](run_chipseq.nf) script is sent using sbatch to the cluster. Ignore if you prefer running the [`chipseq.nf`](chipseq.nf) script directly or configure the SBATCH options according to your preferences.
 
+#### Change the metadata.csv file
+The [`metadata.csv`](metadata.csv) file contains the necessary information to pair the input and experimental samples. In the first and second columns, you should place the sample names of the input and the corresponding experimental sample, respectively. Columns 3 to 4 are used to rename the output files according to the antibody and genotype of the samples. Column 5 designs the replicate number.
 
