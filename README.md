@@ -56,7 +56,7 @@ mkdir -p ~/Chipseq-analysis/Genomes/dm6
 cd ~/Chipseq-analysis/Genomes/dm6
 
 # Download the dm6 genome from UCSC
-wget http://hgdownload.soe.ucsc.edu/goldenPath/dm3/bigZips/dm6.fa.gz
+wget http://hgdownload.soe.ucsc.edu/goldenPath/dm6/bigZips/dm6.fa.gz
 gunzip dm6.fa.gz
 
 # Activate the conda environment to get access to HISAT2
