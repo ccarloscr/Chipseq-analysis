@@ -10,3 +10,11 @@ dependencies:
   - bedtools
   - macs2
   - r-base
+  - r-essentials
+  - r-chipseeker
+  - r-rtracklayer
+  - bioconda::bioconductor-clusterprofiler
+  - bioconda::bioconductor-txdb.dmelanogaster.ucsc.dm3.ensgene
+  - bioconda::bioconductor-txdb.dmelanogaster.ucsc.dm6.ensgene
+  - bioconda::bioconductor-org.dm.eg.db
+  - bioconda::bioconda-utils
