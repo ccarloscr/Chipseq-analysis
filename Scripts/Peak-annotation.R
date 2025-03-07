@@ -107,9 +107,11 @@ annotate_peaks <- lapply(peaks_list_dm6, function(peaks) {
   annotatePeak(filtered_peaks ,
                 tssRegion = c(-around_tss, around_tss),
                 TxDb = TxDb.Dmelanogaster.UCSC.dm6.ensGene,
-                annoDb = "org.Dm.eg.db")
-}
-)
+                annoDb = "org.Dm.eg.db"
+                verbose = FALSE,
+                select = "first"
+              )
+})
 
 
 
@@ -118,7 +120,8 @@ annotate_peaks <- lapply(peaks_list_dm6, function(peaks) {
 dir.create(output_folder, showWarnings = FALSE)
 
 invisible(lapply(seq_along(annotate_peaks), function(i) {
-  output_file <- file.path(output_folder, paste0(names(annotate_peaks)[i], "_annot-dm6.txt"))
+  original_name <- gsub("\\.narrowPeak$", "", basename(input_files[1]))
+  output_file <- file.path(output_folder, paste0(original_name, "_annot-dm6.txt"))
   write.table(as.data.frame(annotate_peaks[[i]]), file = output_file, sep = "\t", quote = FALSE, row.names = FALSE)
 }
 )
