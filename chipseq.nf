@@ -50,16 +50,13 @@ process PostMapping {
         pattern: '*_sorted.bam',
         overwrite: true
 
-    // Define input: each .bam file from the mapped_bam channel and the parameter defined as param.max_mismatch
     input:
     path bam_file
     val max_mismatch
 
-    // Pass sorted .bam files
     output:
     path "*_sorted.bam", emit: sorted_bam
 
-    // Run processing script
     script:
     """
     bash "${params.scripts_dir}/Post-map-process.sh" "${bam_file}" "." "${max_mismatch}"
@@ -94,17 +91,14 @@ process PeakCalling {
         pattern: '*.narrowPeak',
         overwrite: true
 
-    // Define input: each .bam file from the sorted_bam channel
     input:
     path metadata
     val ext_size
     path sorted_bam_dir
 
-    // Define output directory and capture output .narrowPeak files into narrow_peaks channel
     output:
     path "*.narrowPeak", emit: narrow_peaks
 
-    // Run peak calling script
     script:
     """
     echo "Checking contents of sorted_bams:"
@@ -113,8 +107,29 @@ process PeakCalling {
     """
 }
 
+// Process 5: Collect narrow-peak files
+process CollectNarrowPeaks {
+    tag "Collect NarrowPeaks"
+    publishDir "${params.output_dir}/Peaks-called",
+        mode: 'copy',
+        overwrite: true
 
-// Process 5: LiftOver and annotation of peaks
+    input:
+    path narrow_peak_files
+
+    output:
+    path "collected_peaks/", emit: collected_narrow_peaks
+
+    script:
+    """
+    mkdir -p collected_peaks
+    cp -t collected_peaks/ ${narrow_peak_files}
+    """
+}
+
+
+
+// Process 6: LiftOver and annotation of peaks
 process LiftOver_Annotation {
     tag "LiftOVer and Annot Process"
     publishDir "${params.output_dir}/Annotated-peaks-dm6",
@@ -136,7 +151,7 @@ process LiftOver_Annotation {
     """
     source ~/miniconda3/etc/profile.d/conda.sh
     conda activate chipseq_env
-    input_dir="${narrow_peak_files[0].parent}"
+    input_dir=narrow_peak_files
     Rscript "${params.scripts_dir}/Peak-annotation.R" "\${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "$PWD"
     """
 }
@@ -151,5 +166,6 @@ workflow {
     sorted_bam = PostMapping(mapped_bam, Channel.value(params.max_mismatch))
     collected_bams = CollectBams(sorted_bam.collect())
     narrow_peaks = PeakCalling(file(params.metadata), params.ext_size, collected_bams)
-    LiftOver_Annotation(narrow_peaks, Channel.value(params.around_tss), Channel.value(params.canonical_chromosomes), Channel.value(params.genome))
+    collected_narrow_peaks = CollectNarrowPeaks(narrow_peaks.collect())
+    LiftOver_Annotation(collected_narrow_peaks, Channel.value(params.around_tss), Channel.value(params.canonical_chromosomes), Channel.value(params.genome))
 }
