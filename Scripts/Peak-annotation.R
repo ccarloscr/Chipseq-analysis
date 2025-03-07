@@ -107,8 +107,7 @@ annotate_peaks <- lapply(peaks_list_dm6, function(peaks) {
   annotatePeak(filtered_peaks ,
                 tssRegion = c(-around_tss, around_tss),
                 TxDb = TxDb.Dmelanogaster.UCSC.dm6.ensGene,
-                annoDb = "org.Dm.eg.db",
-                select = "first"
+                annoDb = "org.Dm.eg.db"
               )
 })
 
