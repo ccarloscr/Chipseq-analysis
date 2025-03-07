@@ -8,27 +8,10 @@
 
 
 
-## Install and load the required packages
+## Load the required packages
 
 cran_packages <- c("dplyr", "purrr", "R.utils")
 bioc_packages <- c("ChIPseeker", "TxDb.Dmelanogaster.UCSC.dm3.ensGene", "TxDb.Dmelanogaster.UCSC.dm6.ensGene", "org.Dm.eg.db", "clusterProfiler", "rtracklayer")
-
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-  install.packages("BiocManager")
-}
-
-install_cran <- function(pkg) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    install.packages(pkg, dependencies = TRUE)}
-}
-
-install_bioc <- function(pkg) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    BiocManager::install(pkg, dependencies = TRUE)}
-}
-
-lapply(cran_packages, install_cran)
-lapply(bioc_packages, install_bioc)
 
 load_library <- function(pkg) {
   library(pkg, character.only = TRUE)
