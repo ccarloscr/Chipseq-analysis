@@ -75,8 +75,7 @@ if (as.character(dm_genome) == "dm3") {
   # Import the decompressed chain file
   if (file.exists(chain_file_unzipped)) {
     chain <- import.chain(chain_file_unzipped)
-  }
-  else {stop("Unzipped file does not exist: ", chain_file_unzipped)
+  } else {stop("Unzipped file does not exist: ", chain_file_unzipped)
   }
 
 }
@@ -91,8 +90,7 @@ if (as.character(dm_genome) == "dm3") {
       unlist() %>%                    # Converts GRangesList into GRanges, deleting non-converted regions
       .[width(.) > 0]                 # Removes empty regions
     )
-}
-else {peaks_list_dm6 <- peaks_list
+} else {peaks_list_dm6 <- peaks_list
 }
 
 
