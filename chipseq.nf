@@ -148,11 +148,11 @@ process LiftOver_Annotation {
 
     script:
     chromosomes_str = canonical_chromosomes.join(',')
+    input_dir=narrow_peak_files
     """
     source ~/miniconda3/etc/profile.d/conda.sh
     conda activate chipseq_env
-    input_dir=narrow_peak_files
-    Rscript "${params.scripts_dir}/Peak-annotation.R" "\${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "$PWD"
+    Rscript "${params.scripts_dir}/Peak-annotation.R" "${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "$PWD"
     """
 }
 
