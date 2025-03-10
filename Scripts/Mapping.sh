@@ -2,8 +2,8 @@
 
 # Author: Carlos Camilleri-Robles
 # Contact: carloscamilleri@hotmail.com
-# Version: updated 05-03-2025
-# This script uses HISAT2 to map single-end reads to dm3
+# Version: updated 10-03-2025
+# This script uses HISAT2 to map single-end reads
 
 set -e
 
