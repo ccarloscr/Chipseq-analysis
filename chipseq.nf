@@ -134,7 +134,7 @@ process LiftOver_Annotation {
     tag "LiftOVer and Annot Process"
     publishDir "${params.output_dir}/Annotated-peaks-dm6",
         mode: 'copy',
-        pattern: '*_annot_dm6.txt',
+        pattern: '*_annot-dm6.txt',
         overwrite: true
 
     input:
