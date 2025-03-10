@@ -2,7 +2,7 @@
 
 # Author: Carlos Camilleri-Robles
 # Contact: carloscamilleri@hotmail.com
-# Version:
+# Version: 10-03-2025
 # This script uses samtools to filter, sort and index the resulting .bam files of an alignment
 
 set -e
