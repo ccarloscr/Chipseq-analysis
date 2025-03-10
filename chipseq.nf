@@ -152,7 +152,7 @@ process LiftOver_Annotation {
     """
     source ~/miniconda3/etc/profile.d/conda.sh
     conda activate chipseq_env
-    Rscript "${params.scripts_dir}/Peak-annotation.R" "${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "$PWD"
+    Rscript "${params.scripts_dir}/Peak-annotation.R" "${input_dir}" ${around_tss} "${chromosomes_str}" ${dm_genome} "./"
     """
 }
 
